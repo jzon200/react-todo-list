@@ -1,3 +1,9 @@
+import { all, fork } from "redux-saga/effects";
+import usersSaga from "../features/users/usersSaga";
+
 export default function* rootSaga() {
-  console.log("Hello Sagas!");
+  yield all([
+    fork(usersSaga),
+    // add more Sagas here
+  ]);
 }
