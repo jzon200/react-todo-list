@@ -13,24 +13,24 @@ export default function CollapsibleTodoList({
   quantity,
   todoList,
 }: Props) {
-  const [isCompact, setIsCompact] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
     <Fragment>
       <div className="flex gap-2 font-medium">
         <FiChevronDown
           className={`transition-transform ${
-            isCompact ? "-rotate-90" : "rotate-0"
+            isCollapsed ? "-rotate-90" : "rotate-0"
           } `}
           size={24}
           onClick={() => {
-            setIsCompact(!isCompact);
+            setIsCollapsed(!isCollapsed);
           }}
         />
         <div>{title}</div>
         <div className="text-neutral-500">{quantity}</div>
       </div>
-      {!isCompact && (
+      {!isCollapsed && (
         <ul className="flex flex-col gap-4 mx-8">
           {todoList.map((todo) => {
             const todoId = `${todo.title}-${todo.id}`;

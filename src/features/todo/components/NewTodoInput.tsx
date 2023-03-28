@@ -1,31 +1,46 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { addTodoRequest } from "../todoSlice";
 
 export default function NewTodoInput() {
-  const [isFocused, setIsFocused] = useState(false);
+  const userId = useAppSelector((state) => state.users.currentUser?.id);
+  const dispatch = useAppDispatch();
+
+  const { register, handleSubmit, reset } = useForm<Todo>({
+    defaultValues: {
+      targetDate: new Date().toISOString().substring(0, 16),
+      userId: userId,
+    },
+  });
+
+  // const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <div className="relative">
+    <form
+      className="relative"
+      onSubmit={handleSubmit((data) => {
+        dispatch(addTodoRequest(data));
+        reset();
+      })}>
       <input
         className="w-full p-2 rounded-lg focus:outline focus:outline-blue-600 focus:bg-transparent"
         type="text"
         placeholder="+ Add New to “To-do List”"
-        onFocus={() => {
-          setIsFocused(true);
-        }}
-        onBlur={() => {
-          setIsFocused(false);
-        }}
+        {...register("title", { required: true })}
+        // onFocus={() => {
+        //   setIsFocused(true);
+        // }}
+        // onBlur={() => {
+        //   setIsFocused(false);
+        // }}
       />
-      {isFocused && (
+      {
         <input
           className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent"
           type="datetime-local"
-          id="meeting-time"
-          name="meeting-time"
-          // defaultValue={new Date().toISOString().substring(0, 16)}
-          placeholder="Enter Date and Time"
+          {...register("targetDate")}
         />
-      )}
-    </div>
+      }
+    </form>
   );
 }

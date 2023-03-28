@@ -3,6 +3,7 @@ import createSagaMiddleware from "redux-saga";
 import rootSaga from "./sagas";
 import todoReducer from "../features/todo/todoSlice";
 import usersReducer from "../features/users/usersSlice";
+import { persistStore } from "redux-persist";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -13,6 +14,8 @@ export const store = configureStore({
   },
   middleware: [sagaMiddleware],
 });
+
+export const persistor = persistStore(store);
 
 sagaMiddleware.run(rootSaga);
 

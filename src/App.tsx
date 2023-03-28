@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getUsersRequest());
-  }, []);
+  }, [myTodoList]);
 
   const uniqueDates = Array.from(
     new Set(myTodoList.map(({ targetDate }) => getTargetDateString(targetDate)))

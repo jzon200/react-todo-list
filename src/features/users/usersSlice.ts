@@ -1,4 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import persistReducer from "redux-persist/es/persistReducer";
+import persistConfig from "../../util/persistConfig";
 
 type UsersState = {
   users: User[];
@@ -43,6 +45,6 @@ export const {
   getUsersFailure,
 } = usersSlice.actions;
 
-const usersReducer = usersSlice.reducer;
+const usersReducer = persistReducer(persistConfig, usersSlice.reducer);
 
 export default usersReducer;
