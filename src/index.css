@@ -7,4 +7,12 @@
     color-scheme: dark;
     @apply bg-surface;
   }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-800 rounded-lg;
+  }
 }

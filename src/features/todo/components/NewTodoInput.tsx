@@ -25,7 +25,7 @@ export default function NewTodoInput() {
       <input
         className="w-full p-2 rounded-lg focus:outline focus:outline-blue-600 focus:bg-transparent"
         type="text"
-        placeholder="+ Add New to “To-do List”"
+        placeholder="+ Add New to To-do"
         {...register("title", { required: true })}
         // onFocus={() => {
         //   setIsFocused(true);
