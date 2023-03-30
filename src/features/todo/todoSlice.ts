@@ -26,6 +26,32 @@ const todoSlice = createSlice({
     setSelectedTodo(state, action: PayloadAction<Todo | null>) {
       state.selectedTodo = action.payload;
     },
+    updateTodoRequest(state, action: PayloadAction<Todo>) {
+      state.loading = true;
+    },
+    updateTodoSuccess(state, action: PayloadAction<Todo>) {
+      state.loading = false;
+
+      const { id, title, description, targetDate, completed } = action.payload;
+
+      const existingTodo = state.todoList.find((todo) => todo.id === id);
+
+      if (existingTodo != null) {
+        existingTodo.title = title;
+        existingTodo.description = description;
+        existingTodo.targetDate = targetDate;
+        existingTodo.completed = completed;
+        state.selectedTodo = existingTodo;
+      }
+
+      // if (state.selectedTodo != null) {
+      //   state.selectedTodo.title = title;
+      // }
+    },
+    updateTodoFailure(state, action: PayloadAction<unknown>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
     setTodoProperty(
       state,
       action: PayloadAction<{
@@ -34,18 +60,20 @@ const todoSlice = createSlice({
         value: string;
       }>
     ) {
-      const existingTodo = state.todoList.find(
-        (todo) => todo.id === action.payload.id
-      );
+      state.loading = false;
+
+      const { id, key, value } = action.payload;
+
+      const existingTodo = state.todoList.find((todo) => todo.id === id);
 
       if (existingTodo != null) {
-        existingTodo.title = action.payload.value;
+        existingTodo[key] = value;
         state.selectedTodo = existingTodo;
       }
     },
     addTodoRequest(state, action: PayloadAction<Todo>) {
       state.loading = true;
-      state.todoList.push(action.payload);
+      // state.todoList.push(action.payload);
     },
     addTodoSuccess(state, action: PayloadAction<Todo>) {
       state.loading = false;
@@ -63,6 +91,9 @@ export const {
   addTodoRequest,
   addTodoSuccess,
   addTodoFailure,
+  updateTodoRequest,
+  updateTodoSuccess,
+  updateTodoFailure,
   setSelectedTodo,
   setTodoProperty,
 } = todoSlice.actions;

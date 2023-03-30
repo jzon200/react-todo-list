@@ -1,8 +1,8 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { call, put, takeEvery as takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import SERVER_URL from "../../util/serverUrl";
-import { addTodoFailure, addTodoSuccess } from "./todoSlice";
+import { addTodoFailure, addTodoRequest, addTodoSuccess } from "./todoSlice";
 
 function* workAddTodo(action: PayloadAction<Todo>) {
   try {
@@ -18,5 +18,5 @@ function* workAddTodo(action: PayloadAction<Todo>) {
 }
 
 export default function* addTodoSaga() {
-  yield takeLatest(addTodoSuccess.type, workAddTodo);
+  yield takeLatest(addTodoRequest.type, workAddTodo);
 }

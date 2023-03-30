@@ -1,9 +1,8 @@
 import { Fragment, useRef, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
-import TodoItem from "./TodoItem";
-import { FaEllipsisV } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
 import { MdCheckCircle, MdDeleteSweep } from "react-icons/md";
+import TodoItem from "./TodoItem";
 
 type Props = {
   title: string;
@@ -68,7 +67,6 @@ export default function CollapsibleTodoList({
       {!isCollapsed && (
         <ul>
           {todoList.map((todo) => {
-            // const todoId = `${todo.title}-${todo.id}`;
             return <TodoItem key={todo.id} todo={todo} />;
           })}
         </ul>
