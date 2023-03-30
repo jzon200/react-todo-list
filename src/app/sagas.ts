@@ -1,12 +1,12 @@
 import { all, fork } from "redux-saga/effects";
-import usersSaga from "../features/users/usersSaga";
-import addTodoSaga from "../features/todo/addTodoSaga";
-import updateTodoSaga from "../features/todo/updateTodoSaga";
-import deleteTodoSaga from "../features/todo/deleteTodoSaga";
+import addTodoSaga from "../features/todo/sagas/addTodoSaga";
+import deleteTodoSaga from "../features/todo/sagas/deleteTodoSaga";
+import getTodoListSaga from "../features/todo/sagas/getTodoListSaga";
+import updateTodoSaga from "../features/todo/sagas/updateTodoSaga";
 
 export default function* rootSaga() {
   yield all([
-    fork(usersSaga),
+    fork(getTodoListSaga),
     fork(addTodoSaga),
     fork(updateTodoSaga),
     fork(deleteTodoSaga),

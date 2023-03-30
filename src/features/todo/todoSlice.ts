@@ -7,6 +7,7 @@ type TodoState = {
   loading: boolean;
   error: unknown;
   selectedTodo: Todo | null;
+  sortedBy?: "title" | "targetDate";
 };
 
 const initialState: TodoState = {
@@ -22,6 +23,22 @@ const todoSlice = createSlice({
   reducers: {
     setTodoList(state, action: PayloadAction<Todo[]>) {
       state.todoList = action.payload;
+    },
+    getTodoListRequest(
+      state,
+      action: PayloadAction<typeof initialState.sortedBy>
+    ) {
+      state.loading = true;
+      state.sortedBy = action.payload;
+    },
+    getTodoListSuccess(state, action: PayloadAction<Todo[]>) {
+      state.loading = false;
+      state.todoList = action.payload;
+      state.error = null;
+    },
+    getTodoListFailure(state, action: PayloadAction<unknown>) {
+      state.loading = false;
+      state.error = action.payload;
     },
     setSelectedTodo(state, action: PayloadAction<Todo | null>) {
       state.selectedTodo = action.payload;
@@ -108,6 +125,9 @@ export const {
   deleteTodoSuccess,
   setSelectedTodo,
   setTodoProperty,
+  getTodoListRequest,
+  getTodoListSuccess,
+  getTodoListFailure,
 } = todoSlice.actions;
 
 const todoReducer = persistReducer(persistConfig, todoSlice.reducer);

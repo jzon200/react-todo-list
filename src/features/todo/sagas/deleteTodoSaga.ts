@@ -1,7 +1,7 @@
 import axios from "axios";
 import { call, put, takeLatest } from "redux-saga/effects";
-import SERVER_URL from "../../util/serverUrl";
-import { deleteTodoRequest, deleteTodoSuccess } from "./todoSlice";
+import SERVER_URL from "../../../util/serverUrl";
+import { deleteTodoRequest, deleteTodoSuccess } from "../todoSlice";
 import { PayloadAction } from "@reduxjs/toolkit";
 
 function* workDeleteTodoSaga(action: PayloadAction<Todo>) {

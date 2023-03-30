@@ -23,8 +23,6 @@ export default function TodoDetails() {
         <div className="flex items-center gap-4">
           <input
             type="checkbox"
-            name=""
-            id=""
             className="w-5 h-5"
             checked={selectedTodo?.completed ?? false}
             onChange={(e) => {

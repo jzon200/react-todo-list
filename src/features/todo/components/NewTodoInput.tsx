@@ -3,13 +3,13 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { addTodoRequest } from "../todoSlice";
 
 export default function NewTodoInput() {
-  const userId = useAppSelector((state) => state.users.currentUser?.id);
+  // const userId = useAppSelector((state) => state.users.currentUser?.id);
   const dispatch = useAppDispatch();
 
   const { register, handleSubmit, reset } = useForm<Todo>({
     defaultValues: {
       targetDate: new Date().toISOString().substring(0, 16),
-      userId: userId,
+      userId: 1,
     },
   });
 
@@ -27,12 +27,6 @@ export default function NewTodoInput() {
         type="text"
         placeholder="+ Add New to To-do"
         {...register("title", { required: true })}
-        // onFocus={() => {
-        //   setIsFocused(true);
-        // }}
-        // onBlur={() => {
-        //   setIsFocused(false);
-        // }}
       />
       {
         <input

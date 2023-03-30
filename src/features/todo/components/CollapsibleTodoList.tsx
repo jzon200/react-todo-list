@@ -58,7 +58,7 @@ export default function CollapsibleTodoList({
               <div>Delete All</div>
             </button>
             <button className="w-full flex items-center gap-2 p-2 hover:bg-transparent/50">
-              <MdCheckCircle className="text-blue-400" size={24} />
+              <MdCheckCircle className="text-blue-500" size={24} />
               <div>Complete All</div>
             </button>
           </dialog>
