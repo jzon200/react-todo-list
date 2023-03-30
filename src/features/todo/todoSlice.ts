@@ -52,6 +52,16 @@ const todoSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    deleteTodoRequest(state, action: PayloadAction<Todo>) {
+      state.loading = true;
+    },
+    deleteTodoSuccess(state, action: PayloadAction<Todo>) {
+      state.loading = false;
+      state.todoList = state.todoList.filter(
+        (todo) => todo.id !== action.payload.id
+      );
+      state.selectedTodo = null;
+    },
     setTodoProperty(
       state,
       action: PayloadAction<{
@@ -94,6 +104,8 @@ export const {
   updateTodoRequest,
   updateTodoSuccess,
   updateTodoFailure,
+  deleteTodoRequest,
+  deleteTodoSuccess,
   setSelectedTodo,
   setTodoProperty,
 } = todoSlice.actions;
