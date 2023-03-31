@@ -1,19 +1,23 @@
-export default function getTargetDateString(targetDate: string) {
+export default function getRelativeDate(targetDate: string) {
   const today = new Date();
   const dateToCheck = new Date(targetDate);
+
+  if (today > dateToCheck) {
+    return "Overdue";
+  }
 
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
 
-  let additionalLabel = "Today";
+  let dateStatus: string;
 
   if (dateToCheck.toDateString() === today.toDateString()) {
-    additionalLabel = "Today";
+    dateStatus = "Today";
   } else {
     if (dateToCheck.toDateString() === tomorrow.toDateString()) {
-      additionalLabel = "Tomorrow";
+      dateStatus = "Tomorrow";
     } else {
-      additionalLabel = dateToCheck.toLocaleDateString("en-us", {
+      dateStatus = dateToCheck.toLocaleDateString("en-us", {
         dateStyle: "long",
       });
     }
@@ -21,18 +25,18 @@ export default function getTargetDateString(targetDate: string) {
 
   switch (new Date(targetDate).getDay()) {
     case 0:
-      return "Sunday, " + additionalLabel;
+      return "Sunday, " + dateStatus;
     case 1:
-      return "Monday, " + additionalLabel;
+      return "Monday, " + dateStatus;
     case 2:
-      return "Tuesday, " + additionalLabel;
+      return "Tuesday, " + dateStatus;
     case 3:
-      return "Wednesday, " + additionalLabel;
+      return "Wednesday, " + dateStatus;
     case 4:
-      return "Thursday, " + additionalLabel;
+      return "Thursday, " + dateStatus;
     case 5:
-      return "Friday, " + additionalLabel;
+      return "Friday, " + dateStatus;
     default:
-      return "Saturday, " + additionalLabel;
+      return "Saturday, " + dateStatus;
   }
 }

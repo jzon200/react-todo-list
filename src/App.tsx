@@ -6,7 +6,7 @@ import TodoListContent from "./features/todo/components/TodoListContent";
 function App() {
   return (
     <main className="grid grid-cols-2 min-h-screen">
-      <div className="flex flex-col gap-4 py-4 px-6">
+      <div className="flex flex-col gap-4 py-4 px-6 col-span-2 lg:col-span-1">
         {/* <ProfileHeader /> */}
         <header>
           <div className="flex justify-between items-center">

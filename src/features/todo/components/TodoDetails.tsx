@@ -18,7 +18,7 @@ export default function TodoDetails() {
   if (selectedTodo == null) return placeholder;
 
   return (
-    <div className="border-l-2 border-neutral-600">
+    <div className="hidden lg:block border-l-2 border-neutral-600">
       <div className="flex justify-between p-4">
         <div className="flex items-center gap-4">
           <input

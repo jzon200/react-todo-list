@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch } from "../../../app/hooks";
 import { addTodoRequest } from "../todoSlice";
+import getDefaultDueDate from "../../../util/getDefaultDueDate";
 
 export default function NewTodoInput() {
   // const userId = useAppSelector((state) => state.users.currentUser?.id);
@@ -8,12 +9,10 @@ export default function NewTodoInput() {
 
   const { register, handleSubmit, reset } = useForm<Todo>({
     defaultValues: {
-      targetDate: new Date().toISOString().substring(0, 16),
+      targetDate: getDefaultDueDate(),
       userId: 1,
     },
   });
-
-  // const [isFocused, setIsFocused] = useState(false);
 
   return (
     <form
@@ -28,13 +27,12 @@ export default function NewTodoInput() {
         placeholder="+ Add New to To-do"
         {...register("title", { required: true })}
       />
-      {
-        <input
-          className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent"
-          type="datetime-local"
-          {...register("targetDate")}
-        />
-      }
+
+      <input
+        className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent"
+        type="datetime-local"
+        {...register("targetDate", { required: true })}
+      />
     </form>
   );
 }

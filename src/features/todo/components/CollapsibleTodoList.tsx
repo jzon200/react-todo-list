@@ -52,7 +52,7 @@ export default function CollapsibleTodoList({
           />
           <dialog
             ref={actionsDialogRef}
-            className="w-40 absolute left-2 m-0 p-0 rounded-lg bg-dark-variant overflow-clip">
+            className="w-40 absolute left-2 m-0 p-0 rounded-lg bg-dark-variant overflow-clip z-10">
             <button className="w-full flex items-center gap-2 p-2 hover:bg-transparent/50 focus:outline-none">
               <MdDeleteSweep className="text-red-400" size={24} />
               <div>Delete All</div>
