@@ -8,13 +8,17 @@ type TodoState = {
   error: unknown;
   selectedTodo: Todo | null;
   sortedBy?: "title" | "targetDate";
+  page: number;
+  hasMore: boolean;
 };
 
 const initialState: TodoState = {
   todoList: [],
   loading: false,
+  hasMore: true,
   error: null,
   selectedTodo: null,
+  page: 0,
 };
 
 const todoSlice = createSlice({
@@ -26,19 +30,35 @@ const todoSlice = createSlice({
     },
     getTodoListRequest(
       state,
-      action: PayloadAction<typeof initialState.sortedBy>
+      action: PayloadAction<{
+        sortBy: typeof initialState.sortedBy;
+        page: number;
+      }>
     ) {
       state.loading = true;
-      state.sortedBy = action.payload;
+      state.sortedBy = action.payload.sortBy;
+      state.page = action.payload.page;
     },
     getTodoListSuccess(state, action: PayloadAction<Todo[]>) {
       state.loading = false;
-      state.todoList = action.payload;
-      state.error = null;
+      if (action.payload.length === 0) {
+        state.hasMore = false;
+      } else {
+        state.todoList = [...state.todoList, ...action.payload];
+        state.page += 1;
+        state.error = null;
+        state.hasMore = true;
+      }
     },
     getTodoListFailure(state, action: PayloadAction<unknown>) {
       state.loading = false;
       state.error = action.payload;
+    },
+    getMoreTodoList(state, action: PayloadAction<Todo[]>) {
+      state.loading = false;
+      state.todoList = state.todoList.concat(action.payload);
+      state.page += 1;
+      state.error = null;
     },
     setSelectedTodo(state, action: PayloadAction<Todo | null>) {
       state.selectedTodo = action.payload;
@@ -75,6 +95,9 @@ const todoSlice = createSlice({
       );
       state.selectedTodo = null;
     },
+    deleteTodoFailure(state, action: PayloadAction<unknown>) {
+      state.error = action.payload;
+    },
     addTodoRequest(state, action: PayloadAction<Todo>) {
       // state.loading = true;
       // state.todoList.push(action.payload);
@@ -100,6 +123,7 @@ export const {
   updateTodoFailure,
   deleteTodoRequest,
   deleteTodoSuccess,
+  deleteTodoFailure,
   setSelectedTodo,
   getTodoListRequest,
   getTodoListSuccess,

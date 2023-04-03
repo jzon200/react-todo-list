@@ -39,7 +39,7 @@ export default function SortButton() {
         <ul>
           <li
             onClick={() => {
-              dispatch(getTodoListRequest("targetDate"));
+              dispatch(getTodoListRequest({ page: 0, sortBy: "targetDate" }));
             }}
             className={`flex items-center gap-2 p-2 cursor-pointer hover:bg-neutral-600 ${
               sortedBy === "targetDate" && "text-blue-500"
@@ -49,7 +49,7 @@ export default function SortButton() {
           </li>
           <li
             onClick={() => {
-              dispatch(getTodoListRequest("title"));
+              dispatch(getTodoListRequest({ page: 0, sortBy: "title" }));
             }}
             className={`flex items-center gap-2 p-2 cursor-pointer hover:bg-neutral-600 ${
               sortedBy === "title" && "text-blue-500"

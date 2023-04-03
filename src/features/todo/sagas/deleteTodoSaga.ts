@@ -1,7 +1,11 @@
 import axios from "axios";
 import { call, put, takeLatest } from "redux-saga/effects";
 import SERVER_URL from "../../../util/serverUrl";
-import { deleteTodoRequest, deleteTodoSuccess } from "../todoSlice";
+import {
+  deleteTodoRequest,
+  deleteTodoFailure,
+  deleteTodoSuccess,
+} from "../todoSlice";
 import { PayloadAction } from "@reduxjs/toolkit";
 
 function* workDeleteTodoSaga(action: PayloadAction<Todo>) {
@@ -10,7 +14,7 @@ function* workDeleteTodoSaga(action: PayloadAction<Todo>) {
     yield call(axios.delete, `${SERVER_URL}/todo/${id}`);
     yield put(deleteTodoSuccess(action.payload));
   } catch (error) {
-    // yield put(deleteTodoFailure(error));
+    yield put(deleteTodoFailure(error));
   }
 }
 

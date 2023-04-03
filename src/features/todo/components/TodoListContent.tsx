@@ -1,28 +1,39 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import getRelativeDate from "../../../util/getTargetDate";
+import isTodoOverdue from "../../../util/isTodoOverdue";
 import { getTodoListRequest } from "../todoSlice";
 import CollapsibleTodoList from "./CollapsibleTodoList";
-import TodoItem from "./TodoItem";
 import LoadingSpinner from "./LoadingSpinner";
-import isTodoOverdue from "../../../util/isTodoOverdue";
 
 export default function TodoListContent() {
-  const { loading, sortedBy, todoList } = useAppSelector((state) => ({
-    loading: state.todo.loading,
-    todoList: state.todo?.todoList,
-    sortedBy: state.todo.sortedBy,
-  }));
+  const { page, hasMore, loading, sortedBy, todoList } = useAppSelector(
+    (state) => ({
+      loading: state.todo.loading,
+      todoList: state.todo.todoList,
+      sortedBy: state.todo.sortedBy,
+      page: state.todo.page,
+      hasMore: state.todo.hasMore,
+    })
+  );
+
+  const divRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getTodoListRequest("targetDate"));
+    dispatch(getTodoListRequest({ page: 0, sortBy: "targetDate" }));
   }, []);
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = divRef.current!;
+
+    const isBottom = scrollHeight - scrollTop === clientHeight;
+
+    if (isBottom && hasMore && !loading) {
+      dispatch(getTodoListRequest({ page: page, sortBy: sortedBy }));
+    }
+  };
 
   const relativeDates = Array.from(
     new Set(todoList.map(({ targetDate }) => getRelativeDate(targetDate)) ?? [])
@@ -36,7 +47,10 @@ export default function TodoListContent() {
   const pendingList = todoList.filter(({ completed }) => !completed);
 
   return (
-    <div className="flex flex-col gap-4 overflow-y-auto h-[50rem] pr-2">
+    <div
+      ref={divRef}
+      onScroll={handleScroll}
+      className="flex flex-col gap-4 overflow-y-auto h-[50rem] pr-2">
       {sortedBy === "title" && (
         <CollapsibleTodoList
           title="Pending"
@@ -81,6 +95,8 @@ export default function TodoListContent() {
           quantity={completedList.length}
         />
       )}
+
+      {loading && <LoadingSpinner />}
     </div>
   );
 }
